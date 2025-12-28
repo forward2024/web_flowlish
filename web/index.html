@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base href="/">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFFFFF">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000">
+  <meta name="description" content="Flowlish — це нескінченна стрічка коротких англійських діалогів для пасивного прослуховування. Покращуйте сприйняття мови на слух та вивчайте слова у фоновому режимі.">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Flowlish">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <link rel="icon" type="image/png" href="favicon.png"/>
+  <title>Flowlish | Пасивне аудіювання для покращення англійської на слух</title>
+  <link rel="manifest" href="manifest.json">
+
+  <style>
+    body {
+      background-color: #FFFFFF;
+      transition: background-color 0.3s;
+    }
+    @media (prefers-color-scheme: dark) {
+      body {
+        background-color: #000000;
+      }
+    }
+    #loading {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      width: 100vw;
+      position: fixed;
+    }
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid #e0e0e0; 
+      border-top-color: #616161; 
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @media (prefers-color-scheme: dark) {
+      .spinner {
+         border-color: #424242;
+         border-top-color: #bdbdbd;
+      }
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+.flutter-loader {
+  display: none !important;
+}
+  </style>
+</head>
+<body>
+  <div id="loading">
+    <div class="spinner"></div>
+  </div>
+  
+  <script src="flutter_bootstrap.js" defer></script>
+</body>
+</html>
