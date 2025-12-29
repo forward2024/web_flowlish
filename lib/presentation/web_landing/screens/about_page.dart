@@ -82,7 +82,7 @@ class AboutScreen extends StatelessWidget {
   Widget _buildWebMaterialVersion(BuildContext context) {
     final theme = Theme.of(context);
     final screenSize = MediaQuery.of(context).size;
-    final isSmallScreen = screenSize.width < 800;
+    final isSmallScreen = screenSize.width < 1000;
 
     // Відступи, щоб контент не ховався під фіксованою шапкою
     final double topPadding = isSmallScreen ? 80 : 100;
@@ -305,6 +305,31 @@ class AboutScreen extends StatelessWidget {
   }
 
   Widget _buildInfoRow(BuildContext context, String title, String content) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isMobile = screenWidth < 600;
+    
+    if (isMobile) {
+      // Vertical layout for mobile
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              content,
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(height: 1.6),
+            ),
+          ],
+        ),
+      );
+    }
+    
+    // Horizontal layout for tablet/desktop
     return Padding(
       padding: const EdgeInsets.only(bottom: 24),
       child: Row(

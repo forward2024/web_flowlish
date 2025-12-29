@@ -105,8 +105,14 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final screenSize = MediaQuery.of(context).size;
-    final bool isSmallScreen = screenSize.width < 800;
-    final double iconSize = isSmallScreen ? 24 : 28;
+    // Responsive breakpoints: mobile < 600, tablet < 1000, desktop >= 1000
+    final bool isMobile = screenSize.width < 600;
+    final bool isTablet = screenSize.width >= 600 && screenSize.width < 1000;
+    final bool isSmallScreen = screenSize.width < 1000; // for backward compat
+    final double iconSize = isMobile ? 22 : (isTablet ? 26 : 28);
+    // Feature cards per row: 1 on mobile, 2 on tablet, 3 on desktop
+    final int featureCardsPerRow = isMobile ? 1 : (isTablet ? 2 : 3);
+    final double featureCardWidth = isMobile ? double.infinity : 320.0;
 
     // === НАВІГАЦІЯ ===
     final List<Widget> navigationActions = isSmallScreen
@@ -128,15 +134,16 @@ class HomePage extends StatelessWidget {
     final Widget heroHeadline = Text(
       'Інструмент для розвитку інтуїтивного сприйняття англійської',
       textAlign: TextAlign.center,
-      style:
-          (isSmallScreen ? theme.textTheme.headlineLarge : theme.textTheme.displaySmall)
-              ?.copyWith(letterSpacing: 4.0),
+      style: (isMobile 
+          ? theme.textTheme.headlineMedium 
+          : (isTablet ? theme.textTheme.headlineLarge : theme.textTheme.displaySmall))
+              ?.copyWith(letterSpacing: isMobile ? 1.0 : 4.0),
     );
 
     final Widget heroSubheadline = Text(
       'Уявіть керовану стрічку діалогів, яка тренує сприйняття мови\nСотні діалогів розвивають здатність розуміти контекст без перекладу в голові',
       textAlign: TextAlign.center,
-      style: (isSmallScreen ? theme.textTheme.titleLarge : theme.textTheme.headlineSmall)
+      style: (isMobile ? theme.textTheme.bodyLarge : (isTablet ? theme.textTheme.titleLarge : theme.textTheme.headlineSmall))
           ?.copyWith(
             color: theme.textTheme.bodySmall?.color?.withAlpha(179),
             height: 1.4,
@@ -241,7 +248,7 @@ class HomePage extends StatelessWidget {
           runSpacing: 32,
           alignment: WrapAlignment.center,
           children: featureCards.map((card) {
-            return SizedBox(width: isSmallScreen ? double.infinity : 320, child: card);
+            return SizedBox(width: featureCardWidth, child: card);
           }).toList(),
         ),
       ],

@@ -5,6 +5,7 @@ import '../../presentation/web_landing/screens/home_page.dart';
 import '../../presentation/web_landing/screens/about_page.dart';
 import '../../presentation/web_landing/screens/privacy_policy_page.dart';
 import '../../presentation/web_landing/screens/news_feed_page.dart';
+import '../../presentation/web_landing/screens/account_deletion_page.dart';
 
 class AppRouter {
   static final GoRouter router = GoRouter(
@@ -28,6 +29,10 @@ class AppRouter {
         path: '/news',
         // ВИДАЛЕНО 'const'
         pageBuilder: (context, state) => NoTransitionPage(child: NewsFeedPage()),
+      ),
+      GoRoute(
+        path: '/delete-account',
+        pageBuilder: (context, state) => NoTransitionPage(child: AccountDeletionPage()),
       ),
     ],
 
