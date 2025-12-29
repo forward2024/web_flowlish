@@ -3,7 +3,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class AccountDeletionPage extends StatelessWidget {
   const AccountDeletionPage({super.key});
@@ -11,32 +10,6 @@ class AccountDeletionPage extends StatelessWidget {
   static const String _developerName = 'Mykola Petrychenko';
   static const String _appName = 'Flowlish';
   static const String _contactEmail = 'flowlish.contact@gmail.com';
-
-  Future<void> _sendDeletionRequest() async {
-    final Uri emailUri = Uri(
-      scheme: 'mailto',
-      path: _contactEmail,
-      queryParameters: {
-        'subject': 'Account and Data Deletion Request - Flowlish',
-        'body': '''
-Dear Flowlish Support,
-
-I would like to request the deletion of my account and all associated data from Flowlish.
-
-My account email: [Please enter your account email]
-Reason (optional): [You may provide a reason]
-
-I understand that this action is irreversible and all my data will be permanently deleted.
-
-Thank you.
-''',
-      },
-    );
-
-    if (!await launchUrl(emailUri)) {
-      debugPrint('Could not launch email client');
-    }
-  }
 
   void _showModalMenu(BuildContext context) {
     showGeneralDialog(
@@ -110,7 +83,7 @@ Thank you.
             padding: EdgeInsets.only(top: topPadding, bottom: 48),
             child: Center(
               child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 800),
+                constraints: const BoxConstraints(maxWidth: 700),
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: isMobile ? 24 : 48),
                   child: Column(
@@ -119,7 +92,7 @@ Thank you.
                       // Title
                       Center(
                         child: Text(
-                          'Account & Data Deletion',
+                          'Delete Account',
                           style: isMobile
                               ? theme.textTheme.headlineMedium?.copyWith(
                                   fontWeight: FontWeight.bold,
@@ -129,121 +102,130 @@ Thank you.
                                 ),
                         ),
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 12),
                       Center(
                         child: Text(
-                          'Видалення облікового запису та даних',
+                          'Видалення облікового запису',
                           style: theme.textTheme.titleMedium?.copyWith(
-                            color: theme.textTheme.bodySmall?.color?.withAlpha(179),
+                            color: theme.colorScheme.onSurface.withAlpha(150),
                           ),
                         ),
                       ),
                       const SizedBox(height: 48),
 
-                      // App Info Section
-                      _buildSectionHeader(context, 'Application Information'),
-                      _buildInfoCard(
-                        context,
-                        icon: Icons.apps,
-                        title: 'App Name',
-                        content: _appName,
-                      ),
-                      _buildInfoCard(
-                        context,
-                        icon: Icons.person,
-                        title: 'Developer',
-                        content: _developerName,
-                      ),
+                      // App Info
+                      _buildInfoCard(context, Icons.apps, 'App', _appName),
+                      _buildInfoCard(context, Icons.person, 'Developer', _developerName),
                       const Divider(height: 48),
 
-                      // Instructions Section
-                      _buildSectionHeader(context, 'How to Request Deletion'),
-                      _buildStepCard(
-                        context,
-                        step: 1,
-                        title: 'Send a Request',
-                        content:
-                            'Click the button below to send an email requesting deletion of your account and data.',
-                      ),
-                      _buildStepCard(
-                        context,
-                        step: 2,
-                        title: 'Provide Your Email',
-                        content:
-                            'Include the email address associated with your Flowlish account in the request.',
-                      ),
-                      _buildStepCard(
-                        context,
-                        step: 3,
-                        title: 'Confirmation',
-                        content:
-                            'We will process your request within 30 days and send you a confirmation email.',
-                      ),
-                      const Divider(height: 48),
-
-                      // Data Types Section
-                      _buildSectionHeader(context, 'Data That Will Be Deleted'),
-                      _buildDataTypeItem(
-                        context,
-                        icon: Icons.account_circle,
-                        title: 'Account Information',
-                        description: 'Email address and authentication data',
-                        willDelete: true,
-                      ),
-                      _buildDataTypeItem(
-                        context,
-                        icon: Icons.history,
-                        title: 'Learning Progress',
-                        description: 'Your vocabulary progress and listening history',
-                        willDelete: true,
-                      ),
-                      _buildDataTypeItem(
-                        context,
-                        icon: Icons.settings,
-                        title: 'Preferences',
-                        description: 'Playback settings and app preferences',
-                        willDelete: true,
-                      ),
-                      _buildDataTypeItem(
-                        context,
-                        icon: Icons.payment,
-                        title: 'Purchase History',
-                        description:
-                            'Transaction records (retained for 90 days for legal requirements)',
-                        willDelete: false,
-                      ),
-                      const Divider(height: 48),
-
-                      // CTA Button
-                      Center(
+                      // Main Instructions
+                      _buildSectionHeader(context, 'How to Delete Your Account'),
+                      const SizedBox(height: 16),
+                      
+                      // Important notice
+                      Container(
+                        padding: const EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          color: theme.colorScheme.primaryContainer.withAlpha(50),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: theme.colorScheme.primary.withAlpha(50),
+                          ),
+                        ),
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            ElevatedButton.icon(
-                              onPressed: _sendDeletionRequest,
-                              icon: const Icon(Icons.email_outlined),
-                              label: const Text('Request Account Deletion'),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.red.shade700,
-                                foregroundColor: Colors.white,
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: isMobile ? 24 : 32,
-                                  vertical: isMobile ? 16 : 20,
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.info_outline,
+                                  color: theme.colorScheme.primary,
                                 ),
-                                textStyle: theme.textTheme.titleMedium?.copyWith(
-                                  fontWeight: FontWeight.bold,
+                                const SizedBox(width: 12),
+                                Text(
+                                  'Delete from within the app',
+                                  style: theme.textTheme.titleMedium?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
+                              ],
                             ),
-                            const SizedBox(height: 16),
+                            const SizedBox(height: 12),
                             Text(
-                              'Or send email directly to: $_contactEmail',
-                              style: theme.textTheme.bodySmall?.copyWith(
-                                color: theme.textTheme.bodySmall?.color?.withAlpha(128),
+                              'To delete your account, please use the in-app deletion feature. '
+                              'This ensures secure verification of your identity.',
+                              style: theme.textTheme.bodyMedium?.copyWith(height: 1.5),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 32),
+
+                      // Steps - using simple text instead of badges
+                      _buildStep(context, '1.', 'Open the Flowlish app'),
+                      _buildStep(context, '2.', 'Go to Settings'),
+                      _buildStep(context, '3.', 'Open Account Settings'),
+                      _buildStep(context, '4.', 'Tap "Delete Account" and confirm'),
+
+                      const Divider(height: 48),
+
+                      // Data info
+                      _buildSectionHeader(context, 'What Data Is Deleted'),
+                      const SizedBox(height: 16),
+                      
+                      Container(
+                        padding: const EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          color: theme.colorScheme.error.withAlpha(20),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(Icons.delete_outline, color: theme.colorScheme.error),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Authentication Data',
+                                    style: theme.textTheme.titleSmall?.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    'Your email/Apple ID and account credentials stored in Firebase Authentication will be permanently deleted.',
+                                    style: theme.textTheme.bodySmall?.copyWith(
+                                      color: theme.colorScheme.onSurface.withAlpha(180),
+                                      height: 1.4,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
                         ),
                       ),
+
+                      const Divider(height: 48),
+
+                      // Contact for issues
+                      _buildSectionHeader(context, 'Need Help?'),
+                      const SizedBox(height: 8),
+                      Text(
+                        'If you cannot access the app, contact us:',
+                        style: theme.textTheme.bodyMedium?.copyWith(height: 1.5),
+                      ),
+                      const SizedBox(height: 16),
+                      SelectableText(
+                        _contactEmail,
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          color: theme.colorScheme.primary,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+
                       const SizedBox(height: 64),
 
                       // Footer
@@ -256,9 +238,9 @@ Thank you.
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              '© 2025 Flowlish. All rights reserved.',
+                              'Mykola Petrychenko, 2025',
                               style: theme.textTheme.bodySmall?.copyWith(
-                                color: Colors.grey,
+                                color: theme.colorScheme.onSurface.withAlpha(128),
                               ),
                             ),
                           ],
@@ -271,7 +253,7 @@ Thank you.
             ),
           ),
 
-          // Header Layer (Fixed & Blurred)
+          // Header Layer (Glassmorphism)
           Align(
             alignment: Alignment.topCenter,
             child: ClipRect(
@@ -328,102 +310,33 @@ Thank you.
   }
 
   Widget _buildSectionHeader(BuildContext context, String title) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 20),
-      child: Text(
-        title,
-        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.primary,
-            ),
-      ),
+    return Text(
+      title,
+      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+            fontWeight: FontWeight.bold,
+            color: Theme.of(context).colorScheme.primary,
+          ),
     );
   }
 
-  Widget _buildInfoCard(
-    BuildContext context, {
-    required IconData icon,
-    required String title,
-    required String content,
-  }) {
+  Widget _buildInfoCard(BuildContext context, IconData icon, String label, String value) {
     final theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: Row(
         children: [
-          Icon(icon, color: theme.colorScheme.primary, size: 24),
-          const SizedBox(width: 16),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.textTheme.bodySmall?.color?.withAlpha(128),
-                ),
-              ),
-              Text(
-                content,
-                style: theme.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildStepCard(
-    BuildContext context, {
-    required int step,
-    required String title,
-    required String content,
-  }) {
-    final theme = Theme.of(context);
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 20),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: 32,
-            height: 32,
-            decoration: BoxDecoration(
-              color: theme.colorScheme.primary,
-              shape: BoxShape.circle,
-            ),
-            child: Center(
-              child: Text(
-                '$step',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+          Icon(icon, color: theme.colorScheme.primary, size: 22),
+          const SizedBox(width: 12),
+          Text(
+            '$label: ',
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: theme.colorScheme.onSurface.withAlpha(150),
             ),
           ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  content,
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    height: 1.5,
-                    color: theme.textTheme.bodySmall?.color?.withAlpha(179),
-                  ),
-                ),
-              ],
+          Text(
+            value,
+            style: theme.textTheme.bodyMedium?.copyWith(
+              fontWeight: FontWeight.w600,
             ),
           ),
         ],
@@ -431,68 +344,26 @@ Thank you.
     );
   }
 
-  Widget _buildDataTypeItem(
-    BuildContext context, {
-    required IconData icon,
-    required String title,
-    required String description,
-    required bool willDelete,
-  }) {
+  Widget _buildStep(BuildContext context, String number, String text) {
     final theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(
-            icon,
-            color: willDelete ? Colors.red.shade400 : Colors.orange.shade400,
-            size: 24,
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      title,
-                      style: theme.textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                      decoration: BoxDecoration(
-                        color: willDelete
-                            ? Colors.red.shade100
-                            : Colors.orange.shade100,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Text(
-                        willDelete ? 'Will be deleted' : 'Retained temporarily',
-                        style: TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w600,
-                          color: willDelete
-                              ? Colors.red.shade700
-                              : Colors.orange.shade700,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  description,
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: theme.textTheme.bodySmall?.color?.withAlpha(179),
-                  ),
-                ),
-              ],
+          SizedBox(
+            width: 28,
+            child: Text(
+              number,
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: theme.colorScheme.primary,
+              ),
             ),
+          ),
+          const SizedBox(width: 12),
+          Text(
+            text,
+            style: theme.textTheme.bodyLarge,
           ),
         ],
       ),

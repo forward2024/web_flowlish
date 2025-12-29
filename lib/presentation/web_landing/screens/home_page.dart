@@ -265,42 +265,24 @@ class HomePage extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            '© 2025 Flowlish. Всі права захищено.',
+            'Mykola Petrychenko, 2025',
             style: theme.textTheme.bodySmall?.copyWith(
-              color: theme.textTheme.bodySmall?.color?.withAlpha(128),
+              color: theme.colorScheme.onSurface.withAlpha(128),
             ),
           ),
         ],
       ),
     );
 
+    // Top padding to account for fixed header
+    final double topPadding = isSmallScreen ? 80 : 100;
+
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.network(
-              'favicon.png',
-              width: iconSize,
-              height: iconSize,
-              errorBuilder: (context, error, stackTrace) {
-                return Icon(Icons.language, size: iconSize);
-              },
-            ),
-            const SizedBox(width: 12),
-            const Text('Flowlish', style: TextStyle(fontWeight: FontWeight.bold)),
-          ],
-        ),
-        backgroundColor: theme.scaffoldBackgroundColor,
-        elevation: 0,
-        surfaceTintColor: Colors.transparent,
-        scrolledUnderElevation: 0,
-        centerTitle: false,
-        actions: navigationActions,
-      ),
       body: Stack(
         children: [
+          // Content Layer
           SingleChildScrollView(
+            padding: EdgeInsets.only(top: topPadding),
             child: Center(
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 1100),
@@ -331,15 +313,64 @@ class HomePage extends StatelessWidget {
               ),
             ),
           ),
+
+          // Glassmorphism Header Layer
           Align(
             alignment: Alignment.topCenter,
-            child: Container(
-              height: 4.0,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [theme.dividerColor.withAlpha(60), Colors.transparent],
+            child: ClipRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+                child: Container(
+                  height: isSmallScreen ? 60 : 80,
+                  color: theme.scaffoldBackgroundColor.withAlpha(200),
+                  padding: EdgeInsets.symmetric(horizontal: isSmallScreen ? 24 : 48),
+                  child: Center(
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 1100),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          // Logo
+                          Row(
+                            children: [
+                              Image.network(
+                                'favicon.png',
+                                width: iconSize,
+                                height: iconSize,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Icon(Icons.language, size: iconSize);
+                                },
+                              ),
+                              const SizedBox(width: 12),
+                              Text(
+                                'Flowlish',
+                                style: theme.textTheme.titleLarge?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          // Navigation
+                          if (isSmallScreen)
+                            IconButton(
+                              icon: Icon(Icons.menu, size: iconSize),
+                              onPressed: () => _showModalMenu(context),
+                            )
+                          else
+                            Row(
+                              children: [
+                                TextButton(
+                                  onPressed: () => context.go('/about'),
+                                  child: const Text('Про додаток'),
+                                ),
+                                const SizedBox(width: 16),
+                              ],
+                            ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),

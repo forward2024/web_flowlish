@@ -188,7 +188,7 @@ class AboutScreen extends StatelessWidget {
                             ),
                             const SizedBox(width: 8),
                             IconButton(
-                              icon: const Icon(Icons.copy, size: 18, color: Colors.grey),
+                              icon: Icon(Icons.copy, size: 18, color: Theme.of(context).colorScheme.onSurface.withAlpha(150)),
                               tooltip: 'Копіювати',
                               onPressed: () =>
                                   _copyToClipboard(context, 'flowlish.contact@gmail.com'),
@@ -202,7 +202,13 @@ class AboutScreen extends StatelessWidget {
                       _buildInfoRow(
                         context,
                         'WordNet®',
-                        'Лексична база опирається на дані WordNet®.\n© WordNet 3.0 Copyright 2006 by Princeton University.',
+                        '''Лексична база опирається на дані WordNet®.
+
+WordNet 3.0 Copyright 2006 by Princeton University. All rights reserved.
+
+THIS SOFTWARE AND DATABASE IS PROVIDED "AS IS" AND PRINCETON UNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR IMPLIED. BY WAY OF EXAMPLE, BUT NOT LIMITATION, PRINCETON UNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES OF MERCHANT-ABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE OF THE LICENSED SOFTWARE, DATABASE OR DOCUMENTATION WILL NOT INFRINGE ANY THIRD PARTY PATENTS, COPYRIGHTS, TRADEMARKS OR OTHER RIGHTS.
+
+The name of Princeton University or Princeton may not be used in advertising or publicity pertaining to distribution of the software and/or database.''',
                       ),
 
                       const SizedBox(height: 80),
@@ -354,10 +360,13 @@ class AboutScreen extends StatelessWidget {
   }
 
   Widget _buildFooter(BuildContext context) {
+    final theme = Theme.of(context);
     return Center(
       child: Text(
-        '© 2025 Flowlish. Всі права захищено.',
-        style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey),
+        'Mykola Petrychenko, 2025',
+        style: theme.textTheme.bodySmall?.copyWith(
+          color: theme.colorScheme.onSurface.withAlpha(128),
+        ),
       ),
     );
   }
