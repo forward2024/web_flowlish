@@ -1,5 +1,3 @@
-// lib/presentation/web_landing/screens/account_deletion_page.dart
-
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -78,7 +76,6 @@ class AccountDeletionPage extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          // Content Layer
           SingleChildScrollView(
             padding: EdgeInsets.only(top: topPadding, bottom: 48),
             child: Center(
@@ -89,7 +86,6 @@ class AccountDeletionPage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Title
                       Center(
                         child: Text(
                           'Delete Account',
@@ -113,16 +109,13 @@ class AccountDeletionPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 48),
 
-                      // App Info
                       _buildInfoCard(context, Icons.apps, 'App', _appName),
                       _buildInfoCard(context, Icons.person, 'Developer', _developerName),
                       const Divider(height: 48),
 
-                      // Main Instructions
                       _buildSectionHeader(context, 'How to Delete Your Account'),
                       const SizedBox(height: 16),
                       
-                      // Important notice
                       Container(
                         padding: const EdgeInsets.all(20),
                         decoration: BoxDecoration(
@@ -161,7 +154,6 @@ class AccountDeletionPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 32),
 
-                      // Steps - using simple text instead of badges
                       _buildStep(context, '1.', 'Open the Flowlish app'),
                       _buildStep(context, '2.', 'Go to Settings'),
                       _buildStep(context, '3.', 'Open Account Settings'),
@@ -169,7 +161,6 @@ class AccountDeletionPage extends StatelessWidget {
 
                       const Divider(height: 48),
 
-                      // Data info
                       _buildSectionHeader(context, 'What Data Is Deleted'),
                       const SizedBox(height: 16),
                       
@@ -210,7 +201,6 @@ class AccountDeletionPage extends StatelessWidget {
 
                       const Divider(height: 48),
 
-                      // Contact for issues
                       _buildSectionHeader(context, 'Need Help?'),
                       const SizedBox(height: 8),
                       Text(
@@ -228,7 +218,6 @@ class AccountDeletionPage extends StatelessWidget {
 
                       const SizedBox(height: 64),
 
-                      // Footer
                       Center(
                         child: Column(
                           children: [
@@ -253,7 +242,6 @@ class AccountDeletionPage extends StatelessWidget {
             ),
           ),
 
-          // Header Layer (Glassmorphism)
           Align(
             alignment: Alignment.topCenter,
             child: ClipRect(

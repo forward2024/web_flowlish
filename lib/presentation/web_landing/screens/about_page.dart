@@ -1,6 +1,4 @@
-// lib/features/app/presentation/screens/about_screen.dart
-
-import 'dart:ui'; // Для ImageFilter
+import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +8,6 @@ import 'package:go_router/go_router.dart';
 class AboutScreen extends StatelessWidget {
   const AboutScreen({super.key});
 
-  // --- Меню (ідентичне головній сторінці) ---
   void _showModalMenu(BuildContext context) {
     showGeneralDialog(
       context: context,
@@ -33,8 +30,6 @@ class AboutScreen extends StatelessWidget {
                   children: [
                     _buildMenuButton(context, 'Головна', '/'),
                     const SizedBox(height: 16),
-                    // _buildMenuButton(context, 'Новини', '/news'),
-                    // const SizedBox(height: 48),
                     IconButton(
                       icon: const Icon(Icons.close, color: Colors.white, size: 30),
                       onPressed: () => Navigator.pop(context),
@@ -70,7 +65,6 @@ class AboutScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Для нативного iOS залишаємо Cupertino, для Web/Android - новий Material дизайн
     if (defaultTargetPlatform == TargetPlatform.iOS && !kIsWeb) {
       return _buildCupertinoVersion(context);
     } else {
@@ -78,24 +72,21 @@ class AboutScreen extends StatelessWidget {
     }
   }
 
-  // --- ВЕРСІЯ ДЛЯ WEB (Стиль HomePage) ---
   Widget _buildWebMaterialVersion(BuildContext context) {
     final theme = Theme.of(context);
     final screenSize = MediaQuery.of(context).size;
     final isSmallScreen = screenSize.width < 1000;
 
-    // Відступи, щоб контент не ховався під фіксованою шапкою
     final double topPadding = isSmallScreen ? 80 : 100;
 
     return Scaffold(
       body: Stack(
         children: [
-          // 1. Шар Контенту
           SingleChildScrollView(
             padding: EdgeInsets.only(top: topPadding, bottom: 48),
             child: Center(
               child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 1100), // Як на головній
+                constraints: const BoxConstraints(maxWidth: 1100),
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: isSmallScreen ? 24 : 48),
                   child: Column(
@@ -115,7 +106,6 @@ class AboutScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 48),
 
-                      // --- СЕКЦІЇ ---
                       _buildSectionHeader(context, 'Ідея'),
                       _buildInfoRow(
                         context,
@@ -169,15 +159,12 @@ class AboutScreen extends StatelessWidget {
                       const Divider(height: 64),
 
                       _buildSectionHeader(context, 'Підтримка'),
-                      // Оновлений блок підтримки
                       Container(
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
                         child: Row(
                           children: [
                             Icon(Icons.email_outlined, color: theme.colorScheme.primary),
                             const SizedBox(width: 12),
-                            // SelectableText дозволяє виділяти текст мишкою,
-                            // якщо кнопка копіювання не спрацює
                             SelectableText(
                               'flowlish.contact@gmail.com',
                               style: theme.textTheme.titleMedium?.copyWith(
@@ -220,14 +207,12 @@ The name of Princeton University or Princeton may not be used in advertising or 
             ),
           ),
 
-          // 2. Шар Хедера (Glassmorphism Header)
           _buildGlassHeader(context, isSmallScreen),
         ],
       ),
     );
   }
 
-  // --- HEADER WIDGET (Спільний для обох сторінок) ---
   Widget _buildGlassHeader(BuildContext context, bool isSmallScreen) {
     final theme = Theme.of(context);
 
@@ -238,7 +223,7 @@ The name of Princeton University or Princeton may not be used in advertising or 
           filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
           child: Container(
             height: isSmallScreen ? 60 : 80,
-            color: theme.scaffoldBackgroundColor.withAlpha(200), // Напівпрозорий фон
+            color: theme.scaffoldBackgroundColor.withAlpha(200),
             padding: EdgeInsets.symmetric(horizontal: isSmallScreen ? 24 : 48),
             child: Center(
               child: ConstrainedBox(
@@ -246,13 +231,10 @@ The name of Princeton University or Princeton may not be used in advertising or 
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    // LOGO / TITLE
                     InkWell(
                       onTap: () => context.go('/'),
                       child: Row(
                         children: [
-                          // Image.network('favicon.png', width: 24, height: 24), // Лого якщо треба
-                          // const SizedBox(width: 12),
                           Text(
                             'Flowlish',
                             style: theme.textTheme.titleLarge?.copyWith(
@@ -263,7 +245,6 @@ The name of Princeton University or Princeton may not be used in advertising or 
                       ),
                     ),
 
-                    // NAVIGATION
                     if (isSmallScreen)
                       IconButton(
                         icon: const Icon(Icons.menu),
@@ -276,14 +257,6 @@ The name of Princeton University or Princeton may not be used in advertising or 
                             onPressed: () => context.go('/'),
                             child: const Text('Головна'),
                           ),
-                          // TextButton(
-                          //   onPressed: () => context.go('/news'),
-                          //   child: const Text('Новини'),
-                          // ),
-                          // TextButton(
-                          //   onPressed: () => context.go('/privacy'),
-                          //   child: const Text('Конфіденційність'),
-                          // ),
                         ],
                       ),
                   ],
@@ -296,7 +269,6 @@ The name of Princeton University or Princeton may not be used in advertising or 
     );
   }
 
-  // --- Component Helpers ---
   Widget _buildSectionHeader(BuildContext context, String title) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 24),
@@ -315,7 +287,6 @@ The name of Princeton University or Princeton may not be used in advertising or 
     final isMobile = screenWidth < 600;
     
     if (isMobile) {
-      // Vertical layout for mobile
       return Padding(
         padding: const EdgeInsets.only(bottom: 24),
         child: Column(
@@ -335,7 +306,6 @@ The name of Princeton University or Princeton may not be used in advertising or 
       );
     }
     
-    // Horizontal layout for tablet/desktop
     return Padding(
       padding: const EdgeInsets.only(bottom: 24),
       child: Row(
@@ -375,7 +345,6 @@ The name of Princeton University or Princeton may not be used in advertising or 
     try {
       await Clipboard.setData(ClipboardData(text: text));
 
-      // Перевіряємо, чи віджет все ще змонтований перед використанням context
       if (!context.mounted) return;
 
       ScaffoldMessenger.of(context).showSnackBar(
@@ -383,7 +352,7 @@ The name of Princeton University or Princeton may not be used in advertising or 
           content: Text('Email скопійовано: $text'),
           duration: const Duration(seconds: 2),
           behavior: SnackBarBehavior.floating,
-          width: 300, // Обмеження ширини для Web
+          width: 300,
         ),
       );
     } catch (e) {
@@ -391,7 +360,6 @@ The name of Princeton University or Princeton may not be used in advertising or 
 
       if (!context.mounted) return;
 
-      // Показуємо повідомлення, що не вдалося скопіювати
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Не вдалося скопіювати автоматично. Виділіть текст вручну.'),
@@ -402,15 +370,12 @@ The name of Princeton University or Princeton may not be used in advertising or 
     }
   }
 
-  // --- iOS VERSION (Залишаємо без змін для AppStore) ---
   Widget _buildCupertinoVersion(BuildContext context) {
-    // ... (Твій старий код для iOS - встав сюди те саме що було в попередній відповіді для body)
     return CupertinoPageScaffold(
       navigationBar: const CupertinoNavigationBar(middle: Text('Про програму')),
       child: SafeArea(
         child: ListView(
           children: [
-            // ... встав вміст CupertinoListSection з попередньої відповіді
             const Center(
               child: Padding(
                 padding: EdgeInsets.all(20),

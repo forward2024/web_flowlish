@@ -1,4 +1,3 @@
-// lib/presentation/web_landing/screens/not_found_page.dart
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -20,7 +19,7 @@ class NotFoundPage extends StatelessWidget {
             ),
             const SizedBox(height: 32),
             ElevatedButton(
-              onPressed: () => context.go('/'), // Повертає на головну
+              onPressed: () => context.go('/'),
               child: const Text('На Головну'),
             ),
           ],

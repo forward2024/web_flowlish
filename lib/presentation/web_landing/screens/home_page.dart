@@ -1,5 +1,3 @@
-// lib/presentation/web_landing/screens/home_page.dart
-
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -9,7 +7,6 @@ import 'package:url_launcher/url_launcher.dart';
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-  // --- Налаштування Контенту ---
   static final Uri _appStoreUrl = Uri.parse(
     'https://apps.apple.com/us/app/flowlish/id0000000000',
   );
@@ -39,25 +36,6 @@ class HomePage extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // FilledButton(
-                    //   onPressed: () {
-                    //     Navigator.of(context).pop();
-                    //     context.go('/news');
-                    //   },
-                    //   style: FilledButton.styleFrom(
-                    //     backgroundColor: Colors.white,
-                    //     foregroundColor: Colors.black,
-                    //     shape: const StadiumBorder(),
-                    //     padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 16),
-                    //   ),
-                    //   child: Text(
-                    //     'Новини',
-                    //     style: theme.textTheme.titleMedium?.copyWith(
-                    //       fontWeight: FontWeight.bold,
-                    //       color: Colors.black,
-                    //     ),
-                    //   ),
-                    // ),
                     const SizedBox(height: 24),
                     FilledButton(
                       onPressed: () {
@@ -105,16 +83,13 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final screenSize = MediaQuery.of(context).size;
-    // Responsive breakpoints: mobile < 600, tablet < 1000, desktop >= 1000
     final bool isMobile = screenSize.width < 600;
     final bool isTablet = screenSize.width >= 600 && screenSize.width < 1000;
-    final bool isSmallScreen = screenSize.width < 1000; // for backward compat
+    final bool isSmallScreen = screenSize.width < 1000;
     final double iconSize = isMobile ? 22 : (isTablet ? 26 : 28);
-    // Feature cards per row: 1 on mobile, 2 on tablet, 3 on desktop
     final int featureCardsPerRow = isMobile ? 1 : (isTablet ? 2 : 3);
     final double featureCardWidth = isMobile ? double.infinity : 320.0;
 
-    // === НАВІГАЦІЯ ===
     final List<Widget> navigationActions = isSmallScreen
         ? [
             IconButton(
@@ -123,7 +98,6 @@ class HomePage extends StatelessWidget {
             ),
           ]
         : [
-            //TextButton(onPressed: () => context.go('/news'), child: const Text('Новини')),
             TextButton(
               onPressed: () => context.go('/about'),
               child: const Text('Про додаток'),
@@ -254,7 +228,6 @@ class HomePage extends StatelessWidget {
       ],
     );
 
-    // === 3. ФУТЕР ===
     final Widget footer = Padding(
       padding: const EdgeInsets.symmetric(vertical: 48),
       child: Column(
@@ -274,13 +247,11 @@ class HomePage extends StatelessWidget {
       ),
     );
 
-    // Top padding to account for fixed header
     final double topPadding = isSmallScreen ? 80 : 100;
 
     return Scaffold(
       body: Stack(
         children: [
-          // Content Layer
           SingleChildScrollView(
             padding: EdgeInsets.only(top: topPadding),
             child: Center(
@@ -314,7 +285,6 @@ class HomePage extends StatelessWidget {
             ),
           ),
 
-          // Glassmorphism Header Layer
           Align(
             alignment: Alignment.topCenter,
             child: ClipRect(
@@ -330,7 +300,6 @@ class HomePage extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          // Logo
                           Row(
                             children: [
                               Image.network(
@@ -351,7 +320,6 @@ class HomePage extends StatelessWidget {
                             ],
                           ),
 
-                          // Navigation
                           if (isSmallScreen)
                             IconButton(
                               icon: Icon(Icons.menu, size: iconSize),
@@ -381,7 +349,6 @@ class HomePage extends StatelessWidget {
   }
 }
 
-// --- КАРТКА ФУНКЦІОНАЛУ ---
 class _FeatureCard extends StatelessWidget {
   const _FeatureCard({
     required this.icon,

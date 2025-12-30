@@ -1,13 +1,10 @@
-// lib/presentation/web_landing/screens/privacy_policy_page.dart
-
-import 'dart:ui'; // Для ImageFilter
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class PrivacyPolicyPage extends StatelessWidget {
   const PrivacyPolicyPage({super.key});
 
-  // --- Меню ---
   void _showModalMenu(BuildContext context) {
     showGeneralDialog(
       context: context,
@@ -31,8 +28,6 @@ class PrivacyPolicyPage extends StatelessWidget {
                     _menuBtn(context, 'Головна', '/'),
                     const SizedBox(height: 16),
                     _menuBtn(context, 'Про додаток', '/about'),
-                    // const SizedBox(height: 16),
-                    // _menuBtn(context, 'Новини', '/news'),
                     const SizedBox(height: 48),
                     IconButton(
                       icon: const Icon(Icons.close, color: Colors.white, size: 30),
@@ -76,12 +71,11 @@ class PrivacyPolicyPage extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          // 1. Content Layer
           SingleChildScrollView(
             padding: EdgeInsets.only(top: topPadding, bottom: 48),
             child: Center(
               child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 800), // Вужче для тексту
+                constraints: const BoxConstraints(maxWidth: 800),
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: isSmallScreen ? 24 : 0),
                   child: SelectableText.rich(
@@ -126,7 +120,6 @@ class PrivacyPolicyPage extends StatelessWidget {
                           'Only aggregated, anonymized data is periodically transmitted to external services to aid the Service Provider in improving the Application and their service.',
                         ),
 
-                        // ... решта тексту політики (скорочено для прикладу, встав сюди повний текст) ...
                         _subHeader(theme, 'Contact us'),
                         _paragraph(
                           'If you have any questions regarding privacy while using the Application, or have questions about the practices, please contact the Service Provider via email at flowlish.contact@gmail.com.',
@@ -141,7 +134,6 @@ class PrivacyPolicyPage extends StatelessWidget {
             ),
           ),
 
-          // 2. Header Layer (Fixed & Blurred)
           Align(
             alignment: Alignment.topCenter,
             child: ClipRect(
@@ -157,7 +149,6 @@ class PrivacyPolicyPage extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          // Logo
                           InkWell(
                             onTap: () => context.go('/'),
                             child: Text(
@@ -168,7 +159,6 @@ class PrivacyPolicyPage extends StatelessWidget {
                             ),
                           ),
 
-                          // Nav
                           if (isSmallScreen)
                             IconButton(
                               icon: const Icon(Icons.menu),
@@ -185,10 +175,6 @@ class PrivacyPolicyPage extends StatelessWidget {
                                   onPressed: () => context.go('/about'),
                                   child: const Text('Про додаток'),
                                 ),
-                                // TextButton(
-                                //   onPressed: () => context.go('/news'),
-                                //   child: const Text('Новини'),
-                                // ),
                               ],
                             ),
                         ],
@@ -204,7 +190,6 @@ class PrivacyPolicyPage extends StatelessWidget {
     );
   }
 
-  // --- Helper Styles ---
   TextSpan _header(ThemeData theme, String text) {
     return TextSpan(
       text: '$text\n\n',
