@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'core/app/app_router.dart';
 
 void main() {
-  usePathUrlStrategy();
+  //usePathUrlStrategy();
   runApp(MyApp());
 }
 
