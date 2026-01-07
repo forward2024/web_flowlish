@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'core/app/app_router.dart';
 
 void main() {
-  usePathUrlStrategy();
-  runApp(MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -13,36 +12,39 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final lightTextTheme = GoogleFonts.montserratTextTheme(ThemeData.light().textTheme);
-
-    final darkTextTheme = GoogleFonts.montserratTextTheme(ThemeData.dark().textTheme);
+    // Premium Typography Combination: Playfair Display for Headings, Inter for Body
+    // Using a refined pastel theme approach
 
     return MaterialApp.router(
       routerConfig: AppRouter.router,
       title: 'Flowlish',
-      theme: ThemeData(
-        brightness: Brightness.light,
-        useMaterial3: true,
-        textTheme: lightTextTheme,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.indigo,
-          brightness: Brightness.light,
-        ).copyWith(surface: Colors.white),
-        scaffoldBackgroundColor: Colors.white,
-      ),
-
-      darkTheme: ThemeData(
-        brightness: Brightness.dark,
-        useMaterial3: true,
-        textTheme: darkTextTheme,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.indigo,
-          brightness: Brightness.dark,
-        ).copyWith(surface: Colors.black),
-        scaffoldBackgroundColor: Colors.black,
-      ),
-      themeMode: ThemeMode.system,
       debugShowCheckedModeBanner: false,
+      theme: _buildTheme(Brightness.light),
+      darkTheme: _buildTheme(Brightness.dark),
+      themeMode: ThemeMode.system,
+    );
+  }
+
+  ThemeData _buildTheme(Brightness brightness) {
+    final isDark = brightness == Brightness.dark;
+
+    return ThemeData(
+      useMaterial3: true,
+      brightness: brightness,
+      scaffoldBackgroundColor: isDark ? const Color(0xFF0F172A) : Colors.white,
+
+      // Setting defaults for Inter (body)
+      textTheme: GoogleFonts.interTextTheme(ThemeData(brightness: brightness).textTheme)
+          .copyWith(
+            // We will specifically use Playfair Display for large headings in individual widgets
+          ),
+
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: const Color(0xFF6366F1), // Soft Indigo
+        brightness: brightness,
+        primary: const Color(0xFF6366F1),
+        surface: isDark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9),
+      ),
     );
   }
 }
